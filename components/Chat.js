@@ -8,7 +8,7 @@ import { collection, query, where } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
 
-const Chat = ({ id, users }) => {
+const Chat = ({ id, users, setIsSidebarOpen, screenWidth }) => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const recipientSnapshotQuery = query(
@@ -22,7 +22,10 @@ const Chat = ({ id, users }) => {
 
   const enterChat = () => {
     router.push(`/chat/${id}`);
-  }
+    if (screenWidth <= 900) {
+      setIsSidebarOpen(false);
+    }
+  };
 
   return (
     <Container onClick={enterChat}>

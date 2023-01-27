@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { useRouter } from "next/router";
 
 import { Avatar, IconButton } from "@material-ui/core";
-import MoreVert from "@material-ui/icons/MoreVert";
 import AttachFile from "@material-ui/icons/AttachFile";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components";
@@ -25,7 +25,7 @@ import Message from "./Message";
 import getRecipientEmail from "../utils/getRecipientEmail";
 import TimeAgo from "timeago-react";
 
-const ChatScreen = ({ chat, messages }) => {
+const ChatScreen = ({ chat, messages, handleSidebarToggle }) => {
   const endOfMessagesRef = useRef(null);
   const [user] = useAuthState(auth);
   const router = useRouter();
@@ -104,6 +104,11 @@ const ChatScreen = ({ chat, messages }) => {
   return (
     <Container>
       <Header>
+        <IconButton>
+          <MenuContainer onClick={handleSidebarToggle}>
+            <MenuIcon />
+          </MenuContainer>
+        </IconButton>
         {recipient ? (
           <RecipientAvatar src={recipient?.photoURL} />
         ) : (
@@ -127,9 +132,6 @@ const ChatScreen = ({ chat, messages }) => {
         <HeaderIcons>
           <IconButton>
             <AttachFile />
-          </IconButton>
-          <IconButton>
-            <MoreVert />
           </IconButton>
         </HeaderIcons>
       </Header>
@@ -160,7 +162,7 @@ const Header = styled.div`
   z-index: 100;
   top: 0;
   display: flex;
-  padding: 11px;
+  padding: 6px;
   height: 80px;
   align-items: center;
   border-bottom: 1px solid whitesmoke;
@@ -181,6 +183,12 @@ const HeaderInfo = styled.div`
 `;
 
 const HeaderIcons = styled.div``;
+
+const MenuContainer = styled.div`
+  @media screen and (min-width: 900px) {
+    display: none;
+  }
+`;
 
 const MessageContainer = styled.div`
   padding: 30px;

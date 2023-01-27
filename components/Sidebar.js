@@ -14,7 +14,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, addDoc, query, where } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 
-function Sidebar() {
+function Sidebar({ isSidebarOpen, setIsSidebarOpen, screenWidth }) {
   const [user] = useAuthState(auth);
   // Reference to the list of chats
   const userChatRef = query(
@@ -46,7 +46,7 @@ function Sidebar() {
         chat.data().users.find((user) => user === recipientEmail)?.length > 0
     );
 
-  return (
+  return isSidebarOpen ? (
     <Container>
       <Header>
         <UserAvatar onClick={() => signOut(auth)} src={user.photoURL} />
@@ -70,16 +70,22 @@ function Sidebar() {
 
       {/* Chat List */}
       {chatsSnapshot?.docs.map((chat) => (
-        <Chat key={chat.id} id={chat.id} users={chat.data().users} />
+        <Chat
+          key={chat.id}
+          id={chat.id}
+          users={chat.data().users}
+          setIsSidebarOpen={setIsSidebarOpen}
+          screenWidth={screenWidth}
+        />
       ))}
     </Container>
-  );
+  ) : null;
 }
 
 export default Sidebar;
 
 const Container = styled.div`
-  flex: .45;
+  flex: 0.45;
   border-right: 1px solid whitesmoke;
   height: 100vh;
   min-width: 300px;

@@ -8,8 +8,8 @@ const Loading = () => {
         <img
           src="/whatsapp.svg"
           alt="whatsapp-logo"
-          height={150}
-          width={150}
+          height={120}
+          width={120}
           style={{ marginBottom: 10 }}
         />
         <Circle color="#3cbc28" size={60} />
